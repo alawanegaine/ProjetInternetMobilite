@@ -1,5 +1,9 @@
 package com.example.johan.essaiscarte;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationProvider;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -15,10 +19,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+/*import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;*/
 
-public class MapsActivity extends FragmentActivity {
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.widget.Toast;
 
+
+public class MapsActivity extends FragmentActivity implements LocationListener {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private LocationManager lm;
+    private double latitude;
+    private double longitude;
+    private double altitude;
+    private float accuracy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +48,35 @@ public class MapsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER))
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
+        lm.removeUpdates(this);
     }
 
     /**
@@ -82,4 +128,50 @@ public class MapsActivity extends FragmentActivity {
         });
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        altitude = location.getAltitude();
+        accuracy = location.getAccuracy();
+
+        String msg = String.format(
+                getResources().getString(R.string.new_location), latitude,
+                longitude, altitude, accuracy);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+
+        /*GeoPoint p = new GeoPoint((int) (latitude * 1E6), (int) (longitude * 1E6));
+        mc.animateTo(p);
+        mc.setCenter(p);*/
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        String newStatus = "";
+        switch (status) {
+            case LocationProvider.OUT_OF_SERVICE:
+                newStatus = "OUT_OF_SERVICE";
+                break;
+            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                newStatus = "TEMPORARILY_UNAVAILABLE";
+                break;
+            case LocationProvider.AVAILABLE:
+                newStatus = "AVAILABLE";
+                break;
+        }
+        String msg = String.format(getResources().getString(R.string.provider_disabled), provider, newStatus);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        String msg = String.format(getResources().getString(R.string.provider_enabled), provider);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        String msg = String.format(getResources().getString(R.string.provider_disabled), provider);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 }

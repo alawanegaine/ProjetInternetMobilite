@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -32,7 +32,7 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/res/values/colors.xml -->
     <eat-comment/>
     <color name="common_action_bar_splitter">#d2d2d2</color>
     <color name="common_signin_btn_dark_text_default">@android:color/white</color>
@@ -44,7 +44,7 @@
     <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
     <color name="common_signin_btn_light_text_focused">#FF737373</color>
     <color name="common_signin_btn_light_text_pressed">@android:color/white</color>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
@@ -205,10 +205,10 @@
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="abc_max_action_buttons">2</integer>
     <integer name="cancel_button_image_alpha">127</integer>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/res/values/version.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/res/values/version.xml -->
     <eat-comment/>
     <integer name="google_play_services_version">4242000</integer>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
     <eat-comment/>
     <integer name="status_bar_notification_info_maxnum">999</integer>
     <string name="abc_action_bar_home_description">Navigate home</string>
@@ -230,10 +230,10 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">EssaisCarte</string>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/res/values/strings.xml -->
     <eat-comment/>
     <string name="auth_client_needs_enabling_title">
       An application requires Google Play Services to be enabled.
@@ -269,29 +269,35 @@
     <string msgid="1788179980625863495" name="common_google_play_services_update_title">Update Google Play services</string>
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/src/debug/res/values/google_maps_api.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/src/debug/res/values/google_maps_api.xml -->
     <eat-comment/>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyCBsv4CH6DBDdTzxHWZn53aauTNgxRNGuk
     </string>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="new_location">New Location : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s avec une précision de %4$s mètres </string>
+    <string name="provider_disabled">The provider %s is now disabled</string>
+    <string name="provider_enabled">The provider %s is now enabled</string>
+    <string name="provider_new_status">The provider %1$s has now a new status %2$s</string>
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="title_activity_maps">Map</string>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/E:/Users/johan/AndroidStudioProjects/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/johan/Documents/ProjetInternetMobilite/Code%20source/Android/EssaisCarte/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>

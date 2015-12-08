@@ -1970,8 +1970,12 @@ containing a value of this type.
         public static final int common_signin_button_text=0x7f06002b;
         public static final int common_signin_button_text_long=0x7f06002c;
         public static final int google_maps_key=0x7f06002f;
+        public static final int new_location=0x7f060030;
+        public static final int provider_disabled=0x7f060031;
+        public static final int provider_enabled=0x7f060032;
+        public static final int provider_new_status=0x7f060033;
         public static final int status_bar_notification_info_overflow=0x7f06002d;
-        public static final int title_activity_maps=0x7f060030;
+        public static final int title_activity_maps=0x7f060034;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f09007d;
