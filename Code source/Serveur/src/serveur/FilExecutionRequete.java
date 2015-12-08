@@ -20,7 +20,6 @@ public class FilExecutionRequete implements Runnable{
 	//////////////////////////////////////////////////////////////////
 	//								METHODES						//
 	//////////////////////////////////////////////////////////////////	
-	
 	/**
 	 * Constructeur vide (toutes les infos serveur sont disponibles grâce à la classe statique "ServeurInfo")
 	 */

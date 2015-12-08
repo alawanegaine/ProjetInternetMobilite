@@ -1,5 +1,9 @@
 package serveur;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +20,14 @@ public class FilExecutionAjout implements Runnable{
 	 * Logger servant à l'affichage des diverses informations
 	 */
 	private static final Logger log = Logger.getLogger( FilExecutionAjout.class.getName() );
+	/**
+	 * Socket sur lequel on écoute
+	 */
+	private DatagramSocket monSocket;
+	/**
+	 * Le nom de notre fil d'execution
+	 */
+	private String nomDuFil = "Fil d'éxecution ajout";
 	
 	//////////////////////////////////////////////////////////////////
 	//								METHODES						//
@@ -31,7 +43,20 @@ public class FilExecutionAjout implements Runnable{
 	 */
 	@Override
 	public void run() {
-		System.out.println("Le fil d'execution d'ajout d'image est correctement démarré, au port " + ServeurInfo.getPortAjoutImage());
-		while(true);
+		try {
+			monSocket = new DatagramSocket(ServeurInfo.getPortAjoutImage());
+			System.out.println(nomDuFil + " est correctement démarré, au port " + ServeurInfo.getPortAjoutImage());
+			byte[] buffer = new byte[10000];
+			while(ServeurInfo.estEnMarche()){
+				DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
+				System.out.println(nomDuFil + " en attente d'une requête");
+				monSocket.receive(paquet); //Réception bloquante
+				
+			}
+		} catch (SocketException e) {
+			log.log(Level.WARNING, "Problème de création de socket", e);
+		} catch (IOException e) {
+			log.log(Level.WARNING, "Problème lors du receive(paquet)", e);
+		}
 	}
 }

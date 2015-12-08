@@ -37,7 +37,10 @@ public class Serveur {
 	 * @return 
 	 * 
 	 */
-	private static void demarrerServeur(){		
+	private static void demarrerServeur(){	
+		//On change l'état du serveur
+		ServeurInfo.setEnMarche(true);
+		
 		//On initialise les fils d'execution
 		filExecutionAjout = new FilExecutionAjout();
 		filExecutionRequete = new FilExecutionRequete();

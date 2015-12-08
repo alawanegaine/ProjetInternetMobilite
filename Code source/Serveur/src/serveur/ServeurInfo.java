@@ -15,6 +15,7 @@ public class ServeurInfo {
 	private static String serveurIp;
 	private static int portAjoutImage = 11111;
 	private static int portRequeteImage = 22222;
+	private static boolean enMarche = false;
 	
 	//////////////////////////////////////////////////////////////////
 	//								METHODES						//
@@ -35,5 +36,13 @@ public class ServeurInfo {
 	
 	public static int getPortRequeteImage() {
 		return portRequeteImage;
+	}
+	
+	public static void setEnMarche(boolean b){
+		enMarche = b;
+	}
+	
+	public static boolean estEnMarche(){
+		return enMarche;
 	}
 }
