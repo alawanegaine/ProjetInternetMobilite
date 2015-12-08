@@ -15,7 +15,7 @@ import util.InfosServer;
 
 public class GetListPointThread implements Runnable{
 	
-	public GetListPointThread() {
+	public public GetListPointThread() {
 		
 	}
 

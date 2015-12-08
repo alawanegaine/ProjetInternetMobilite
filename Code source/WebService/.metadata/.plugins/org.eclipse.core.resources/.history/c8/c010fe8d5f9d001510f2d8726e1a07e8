@@ -17,9 +17,5 @@ public class InfosServer {
 	public static int getPortserverweb() {
 		return portServerWeb;
 	}
-	
-	public static int getDistancekmmaxpoints() {
-		return distanceKmMaxPoints;
-	}
 
 }

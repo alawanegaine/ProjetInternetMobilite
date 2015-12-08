@@ -162,14 +162,14 @@ public class Message implements Serializable{
 	/**
 	 * @return Le port de celui qui envois la requ�te
 	 */
-	public int getPort() {
+	public String getPort() {
 		return port;
 	}
 	
 	/**
 	 * @param port Le port de celui qui envois la requ�te
 	 */
-	public void setPort(int port) {
+	public void setPort(String port) {
 		this.port = port;
 	}
 	

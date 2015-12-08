@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.swing.ImageIcon;
 
 /**
- * L'objet de base qui sera envoyï¿½ vers/depuis le serveur
+ * L'objet de base qui sera envoyé vers/depuis le serveur
  * @author Damien
  */
 public class Message implements Serializable{
@@ -14,15 +14,15 @@ public class Message implements Serializable{
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
 	/**
-	 * Le port de celui qui envois la requï¿½te
+	 * Le port de celui qui envois la requête
 	 */
-	private int port;
+	private String port;
 	/**
-	 * L'adresse Ip de celui qui envois la requï¿½te
+	 * L'adresse Ip de celui qui envois la requête
 	 */
 	private String adresseIp;
 	/**
-	 * Le type de requï¿½te que l'on envois
+	 * Le type de requête que l'on envois
 	 */
 	private Methode methode;
 	/**
@@ -30,23 +30,23 @@ public class Message implements Serializable{
 	 */
 	private ImageIcon photo;
 	/**
-	 * Le titre associï¿½ ï¿½ la photo 
+	 * Le titre associé à la photo 
 	 */
 	private String titre;
 	/**
-	 * Le commentaire associï¿½ ï¿½ la photo
+	 * Le commentaire associé à la photo
 	 */
 	private String commentaire;
 	/**
-	 * La longitude du point associï¿½ ï¿½ la photo
+	 * La longitude du point associé à la photo
 	 */
 	private String longitude;
 	/**
-	 * La latitude du point associï¿½ ï¿½ la photo
+	 * La latitude du point associé à la photo
 	 */
 	private String latitude;
 	/**
-	 * La date d'ajout dans la base associï¿½e ï¿½ la photo
+	 * La date d'ajout dans la base associée à la photo
 	 */
 	private Date dateAjout;
 	
@@ -55,91 +55,91 @@ public class Message implements Serializable{
 	//////////////////////////////////////////////////////////////////	
 	
 	/**
-	 * Constructeur par dï¿½faut
+	 * Constructeur par défaut
 	 */
 	public Message() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	/**
-	 * @return L'adresse Ip de celui qui envois la requï¿½te
+	 * @return L'adresse Ip de celui qui envois la requête
 	 */
 	public String getAdresseIp() {
 		return adresseIp;
 	}
 	
 	/**
-	 * @param adresseIp L'adresse Ip de celui qui envois la requï¿½te
+	 * @param adresseIp L'adresse Ip de celui qui envois la requête
 	 */
 	public void setAdresseIp(String adresseIp) {
 		this.adresseIp = adresseIp;
 	}
 	
 	/**
-	 * @return Le commentaire associï¿½ ï¿½ la photo
+	 * @return Le commentaire associé à la photo
 	 */
 	public String getCommentaire() {
 		return commentaire;
 	}
 	
 	/**
-	 * @param commentaire Le commentaire associï¿½ ï¿½ la photo
+	 * @param commentaire Le commentaire associé à la photo
 	 */
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
 	}
 	
 	/**
-	 * @return La date d'ajout dans la base associï¿½e ï¿½ la photo
+	 * @return La date d'ajout dans la base associée à la photo
 	 */
 	public Date getDateAjout() {
 		return dateAjout;
 	}
 
 	/**
-	 * @param dateAjout La date d'ajout dans la base associï¿½e ï¿½ la photo
+	 * @param dateAjout La date d'ajout dans la base associée à la photo
 	 */
 	public void setDateAjout(Date dateAjout) {
 		this.dateAjout = dateAjout;
 	}
 	
 	/**
-	 * @return La latitude du point associï¿½ ï¿½ la photo
+	 * @return La latitude du point associé à la photo
 	 */
 	public String getLatitude() {
 		return latitude;
 	}
 	
 	/**
-	 * @param latitude La latitude du point associï¿½ ï¿½ la photo
+	 * @param latitude La latitude du point associé à la photo
 	 */
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 	
 	/**
-	 * @return La longitude du point associï¿½ ï¿½ la photo
+	 * @return La longitude du point associé à la photo
 	 */
 	public String getLongitude() {
 		return longitude;
 	}
 	
 	/**
-	 * @param longitude La longitude du point associï¿½ ï¿½ la photo
+	 * @param longitude La longitude du point associé à la photo
 	 */
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 	
 	/**
-	 * @return Le type de requï¿½te que l'on envois
+	 * @return Le type de requête que l'on envois
 	 */
 	public Methode getMethode() {
 		return methode;
 	}
 
 	/**
-	 * @param methode Le type de requï¿½te que l'on envois
+	 * @param methode Le type de requête que l'on envois
 	 */
 	public void setMethode(Methode methode) {
 		this.methode = methode;
@@ -160,28 +160,28 @@ public class Message implements Serializable{
 	}
 	
 	/**
-	 * @return Le port de celui qui envois la requï¿½te
+	 * @return Le port de celui qui envois la requête
 	 */
-	public int getPort() {
+	public String getPort() {
 		return port;
 	}
 	
 	/**
-	 * @param port Le port de celui qui envois la requï¿½te
+	 * @param port Le port de celui qui envois la requête
 	 */
-	public void setPort(int port) {
+	public void setPort(String port) {
 		this.port = port;
 	}
 	
 	/**
-	 * @return Le titre associï¿½ ï¿½ la photo 
+	 * @return Le titre associé à la photo 
 	 */
 	public String getTitre() {
 		return titre;
 	}
 	
 	/**
-	 * @param titre Le titre associï¿½ ï¿½ la photo 
+	 * @param titre Le titre associé à la photo 
 	 */
 	public void setTitre(String titre) {
 		this.titre = titre;
