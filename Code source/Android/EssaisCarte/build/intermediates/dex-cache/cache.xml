@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="E:\Users\johan\AndroidStudioProjects\EssaisCarte\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\4.2.42\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e5f81129dfb3d02df80126512bc98278ed2bb40a">
+        <dex dex="E:\Users\johan\AndroidStudioProjects\EssaisCarte\app\build\intermediates\pre-dexed\debug\classes-bde3b4a18446531abca2bd5891aeeb0e28fc6f50.jar" />
+    </item>
+
+</items>
