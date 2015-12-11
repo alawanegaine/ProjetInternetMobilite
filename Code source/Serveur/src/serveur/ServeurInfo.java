@@ -13,8 +13,8 @@ public class ServeurInfo {
 	 */
 	private static final Logger log = Logger.getLogger(ServeurInfo.class.getName() );	
 	private static String serveurIp;
-	private static int portAjoutImage = 11111;
-	private static int portRequeteImage = 22222;
+	private static int portUdp = 15000;
+	private static int portTcp = 25000;
 	private static boolean enMarche = false;
 	
 	//////////////////////////////////////////////////////////////////
@@ -30,12 +30,12 @@ public class ServeurInfo {
 		return serveurIp;
 	}
 	
-	public static int getPortAjoutImage() {
-		return portAjoutImage;
+	public static int getPortTcp() {
+		return portTcp;
 	}
 	
-	public static int getPortRequeteImage() {
-		return portRequeteImage;
+	public static int getPortUdp() {
+		return portUdp;
 	}
 	
 	public static void setEnMarche(boolean b){

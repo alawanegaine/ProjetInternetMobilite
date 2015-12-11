@@ -25,11 +25,11 @@ public class Serveur {
 	/**
 	 * Le fil gérant les requêtes d'ajout de données dans la base
 	 */
-	private static FilExecutionAjout filExecutionAjout;
+	private static FileTcp filExecutionAjout;
 	/**
 	 * Le fil gérant les requêtes demandant des données de la base
 	 */
-	private static FilExecutionRequete filExecutionRequete;
+	private static FileUdp filExecutionRequete;
 	/**
 	 * L'objet permettant de faire le lien avec la BDD
 	 */
@@ -64,8 +64,8 @@ public class Serveur {
 		ServeurInfo.setEnMarche(true);
 		
 		//On initialise les fils d'execution
-		filExecutionAjout = new FilExecutionAjout(maBase);
-		filExecutionRequete = new FilExecutionRequete(maBase);
+		filExecutionAjout = new FileTcp(maBase);
+		filExecutionRequete = new FileUdp(maBase);
 		
 		//On démarre les fils d'execution
 		new Thread(filExecutionAjout).start();

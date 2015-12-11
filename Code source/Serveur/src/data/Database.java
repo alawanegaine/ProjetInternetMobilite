@@ -33,7 +33,7 @@ import com.sun.corba.se.spi.orb.ParserData;
 import protocole.Methode;
 import protocole.Point;
 import protocole.RequeteMessage;
-import serveur.FilExecutionAjout;
+import serveur.FileTcp;
 
 /**
  * Classe permettant l'interaction avec la base de données SQL
@@ -50,7 +50,7 @@ public class Database {
 	/**
 	 * Logger servant à l'affichage des diverses informations
 	 */
-	private static final Logger log = Logger.getLogger( FilExecutionAjout.class.getName() );
+	private static final Logger log = Logger.getLogger( FileTcp.class.getName() );
 	/**
 	 * Le lien permettant la connexion à la database
 	 */

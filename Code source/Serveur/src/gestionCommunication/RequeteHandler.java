@@ -1,4 +1,4 @@
-package gestionRequete;
+package gestionCommunication;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -17,13 +17,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import data.Database;
+import protocole.Methode;
 import protocole.Point;
 import protocole.RequeteMessage;
 import protocole.RequetePoints;
-import serveur.FilExecutionAjout;
+import serveur.FileTcp;
 
 /**
- * Cette classe permet de gérer les requêtes qui arrivent sur le serveur (de type RequeteMessage)
+ * Cette classe permet de gérer les requêtes qui arrivent sur le serveur depuis le WebService
  * @author Damien
  */
 public class RequeteHandler implements Runnable{
@@ -37,7 +38,7 @@ public class RequeteHandler implements Runnable{
 	/**
 	 * Logger servant à l'affichage des diverses informations
 	 */
-	private static final Logger log = Logger.getLogger( FilExecutionAjout.class.getName() );
+	private static final Logger log = Logger.getLogger( FileTcp.class.getName() );
 	/**
 	 * Le message que l'on veut traiter
 	 */
@@ -57,34 +58,6 @@ public class RequeteHandler implements Runnable{
 	public RequeteHandler(RequeteMessage r, Database bdd) {
 		this.requete = r;
 		this.maBase = bdd;
-	}
-
-	/**
-	 * Permet de transmettre une requête de réponse
-	 * @param messageAEnvoyer Le message que l'on veut transmettre
-	 * @param addresse L'addresse IP à laquelle on envoit le message
-	 * @param port Le port sur lequel on envois le message
-	 */
-	public void transmettreMessage(RequeteMessage messageAEnvoyer, String addresse, int port) throws UnknownHostException, IOException{
-		//Création du scoket d'envois
-		DatagramSocket aSocket = new DatagramSocket();
-		try {
-			byte[] buffer = RequeteMessage.marshall(messageAEnvoyer);
-
-			//On crée le paquet à renvoyer
-			DatagramPacket out = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(addresse), port);
-			aSocket.send(out);
-			System.out.println("Réponse renvoyée à l'adresse : "+ addresse + " avec la méthode : " + messageAEnvoyer.getMethode().toString());
-		} catch (SocketException e) {
-			log.log(Level.SEVERE, "Envois du message impossible : SocketException",e);
-		} catch (IOException e) {
-			log.log(Level.SEVERE, "Envois du message impossible : IOException",e);
-		}
-		finally {
-			if (aSocket != null)
-				//Si l'envois s'est fait avec succès, on ferme le socket
-				aSocket.close();
-		}
 	}
 
 	/**
@@ -121,20 +94,7 @@ public class RequeteHandler implements Runnable{
 	 */
 	@Override
 	public void run() {
-		switch (requete.getMethode()){
-		//Cas où l'on veut ajouter une image 
-		case add :
-			break;
-		//Cas ou l'on veut récupérer les informations relatives à un point
-		case getInfosPoint :
-			try {
-				recupererInfosPoint();
-			} catch (IOException e) {
-				log.log(Level.SEVERE, "Problème sur le port : l'envois de la réponse n'a pas eu lieu", e);
-			}
-			break;
-		//Cas ou l'on veut récupérer la liste des points
-		case getListePoints :
+		if(requete.getMethode() == Methode.getListePoints){
 			try {
 				recupererListePoints();
 			} catch (NumberFormatException e) {
@@ -144,23 +104,7 @@ public class RequeteHandler implements Runnable{
 			} catch (IOException e) {
 				log.log(Level.SEVERE, "Problème sur le port : l'envois de la réponse n'a pas eu lieu", e);
 			}
-			break;
 		}
-	}
-
-	/**
-	 * Méthode permettant de récupérer toutes les informations relatives à un point
-	 */
-	private void recupererInfosPoint() throws UnknownHostException, IOException {
-		//On crée la réponse
-		RequeteMessage reponse = null;
-		int idPhoto = -1;
-		idPhoto = requete.getIdPhoto();
-		if(idPhoto != -1)
-			reponse = maBase.getInfosPoint(idPhoto);
-
-		//On envois la réponse
-		transmettreMessage(reponse, requete.getAdresseIp(), requete.getPort());
 	}
 
 	/**

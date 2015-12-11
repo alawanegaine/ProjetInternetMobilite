@@ -10,15 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import data.Database;
-import gestionRequete.RequeteHandler;
+import gestionCommunication.RequeteHandler;
 import protocole.RequeteMessage;
 
 /**
- * Cette classe va permettre de gérer les requêtes qui demandent un ajout de données dans la base / sur le serveur
+ * Cette classe va permettre de gérer les requêtes d'échange de données de faible poid (avec le WebService)
  * @author Damien
- *
  */
-public class FilExecutionAjout implements Runnable{
+public class FileUdp implements Runnable{
 	//////////////////////////////////////////////////////////////////
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
@@ -29,7 +28,7 @@ public class FilExecutionAjout implements Runnable{
 	/**
 	 * Logger servant à l'affichage des diverses informations
 	 */
-	private static final Logger log = Logger.getLogger( FilExecutionAjout.class.getName() );
+	private static final Logger log = Logger.getLogger( FileUdp.class.getName() );	
 	/**
 	 * Socket sur lequel on écoute
 	 */
@@ -37,7 +36,7 @@ public class FilExecutionAjout implements Runnable{
 	/**
 	 * Le nom de notre fil d'execution
 	 */
-	private String nomDuFil = "Fil d'éxecution ajout";
+	private String nomDuFil = "Fil d'éxecution requête";
 	/**
 	 * L'objet permettant de faire le lien avec la BDD
 	 */
@@ -45,11 +44,11 @@ public class FilExecutionAjout implements Runnable{
 	
 	//////////////////////////////////////////////////////////////////
 	//								METHODES						//
-	//////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////	
 	/**
 	 * Constructeur vide (toutes les infos serveur sont disponibles grâce à la classe statique "ServeurInfo")
 	 */
-	public FilExecutionAjout(Database bdd) {
+	public FileUdp(Database bdd) {
 		this.maBase = bdd;
 	}
 	
@@ -57,12 +56,12 @@ public class FilExecutionAjout implements Runnable{
 	 * Gestion des requêtes
 	 */
 	@Override
-	public void run() {
+	public void run() {	
 		ExecutorService execute = Executors.newCachedThreadPool(); //On crée un pool de thread avec cache (taille variable, 60s to death)
 		
 		try {
-			monSocket = new DatagramSocket(ServeurInfo.getPortAjoutImage());
-			System.out.println(nomDuFil + " est correctement démarré, au port " + ServeurInfo.getPortAjoutImage());
+			monSocket = new DatagramSocket(ServeurInfo.getPortUdp());
+			System.out.println("Le fil d'execution gérant les demandes de données est correctement démarré, au port " + ServeurInfo.getPortUdp());
 			byte[] buffer = new byte[10000];
 			while(ServeurInfo.estEnMarche()){
 				DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);
@@ -74,7 +73,7 @@ public class FilExecutionAjout implements Runnable{
 				System.out.println("Requête reçu de " + requete.getAdresseIp() + " avec la méthode " + requete.getMethode());
 				
 				//On lance le traitement de notre requête (Thread-per-request) en l'ajoutant dans notre pool de Thread
-				execute.submit(new RequeteHandler(requete, maBase));				
+				execute.submit(new RequeteHandler(requete, maBase));
 			}
 		} catch (SocketException e) {
 			log.log(Level.WARNING, "Problème de création de socket", e);
@@ -82,4 +81,5 @@ public class FilExecutionAjout implements Runnable{
 			log.log(Level.WARNING, "Problème lors du receive(paquet)", e);
 		}
 	}
+
 }
