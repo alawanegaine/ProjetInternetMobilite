@@ -16,6 +16,10 @@ public class RequetePoints implements Serializable{
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
 	/**
+	 * Numéro de version
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * L'ensemble des points contenu dans la base depuis une date donnée
 	 */
 	private ArrayList<Point> listeDePoints;
@@ -54,5 +58,13 @@ public class RequetePoints implements Serializable{
 	 */
 	public ArrayList<Point> getListeDePoints() {
 		return listeDePoints;
+	}
+	
+	/**
+	 * Permet d'assigner la liste de points
+	 * @param listeDePoints L'ensemble des points contenu dans la base depuis une date donnée
+	 */
+	public void setListeDePoints(ArrayList<Point> listeDePoints) {
+		this.listeDePoints = listeDePoints;
 	}
 }

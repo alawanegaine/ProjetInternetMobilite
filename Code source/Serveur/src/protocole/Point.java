@@ -12,6 +12,10 @@ public class Point implements Serializable{
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
 	/**
+	 * Numéro de version
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * La longitude du point
 	 */
 	private String longitude;

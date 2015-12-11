@@ -14,9 +14,13 @@ public class Message implements Serializable{
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
 	/**
+	 * Numéro de version
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * Le port de celui qui envois la requête
 	 */
-	private String port;
+	private int port;
 	/**
 	 * L'adresse Ip de celui qui envois la requête
 	 */
@@ -49,6 +53,10 @@ public class Message implements Serializable{
 	 * La date d'ajout dans la base associée à la photo
 	 */
 	private Date dateAjout;
+	/**
+	 * L'id de la photo dans la base
+	 */
+	private int idPhoto;
 	
 	//////////////////////////////////////////////////////////////////
 	//								METHODES						//
@@ -146,6 +154,20 @@ public class Message implements Serializable{
 	}
 	
 	/**
+	 * @param idPhoto  L'id de la photo dans la base
+	 */
+	public void setIdPhoto(int idPhoto) {
+		this.idPhoto = idPhoto;
+	}
+	
+	/**
+	 * @return  L'id de la photo dans la base
+	 */
+	public int getIdPhoto() {
+		return idPhoto;
+	}
+	
+	/**
 	 * @return La photo
 	 */
 	public ImageIcon getPhoto() {
@@ -162,14 +184,14 @@ public class Message implements Serializable{
 	/**
 	 * @return Le port de celui qui envois la requête
 	 */
-	public String getPort() {
+	public int getPort() {
 		return port;
 	}
 	
 	/**
 	 * @param port Le port de celui qui envois la requête
 	 */
-	public void setPort(String port) {
+	public void setPort(int port) {
 		this.port = port;
 	}
 	
