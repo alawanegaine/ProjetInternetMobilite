@@ -26,13 +26,28 @@ package util ;
 /*::                                                                         :*/
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-class DistanceCalculator
-{
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+public class DistanceCalculator {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public DistanceCalculator(){
 		
 	}
 	
-	private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+	public static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
 		dist = Math.acos(dist);
@@ -59,5 +74,5 @@ class DistanceCalculator
 	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 	private static double rad2deg(double rad) {
 		return (rad * 180 / Math.PI);
-	}	
+	}
 }

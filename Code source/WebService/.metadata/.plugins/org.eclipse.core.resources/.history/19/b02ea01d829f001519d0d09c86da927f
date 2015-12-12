@@ -1,0 +1,70 @@
+package protocole;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import org.apache.commons.lang3.SerializationUtils;
+
+import serveur.ServeurInfo;
+
+/**
+ * La requête qui sera transmise au WebService. C'est elle qui contiendra la liste des points présents dans la base
+ * @author Damien
+ */
+public class RequetePoints implements Serializable{
+	//////////////////////////////////////////////////////////////////
+	//								ATTRIBUTS						//
+	//////////////////////////////////////////////////////////////////
+	/**
+	 * Numéro de version
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * L'ensemble des points contenu dans la base depuis une date donnée
+	 */
+	private ArrayList<Point> listeDePoints;
+	
+	//////////////////////////////////////////////////////////////////
+	//								METHODES						//
+	//////////////////////////////////////////////////////////////////	
+	/**
+	 * Constructeur par défaut
+	 */
+	public RequetePoints() {
+		
+	}
+	
+	/**
+	 * Permet la dé-sérialisation de la requête
+	 * @param requete La requête (RequetePoint) sérialisée 
+	 * @return L'objet RequetePoint
+	 */
+    public static RequetePoints unmarshall(byte[] requete) {
+        return SerializationUtils.deserialize(requete);
+	}
+    
+    /**
+     * Permet la sérialisation de la requête
+     * @param requete L'objet RequetePoint
+     * @return La requête (RequetePoint) sérialisée
+     */
+	@SuppressWarnings("empty-statement")
+	public static byte[] marshall(RequetePoints requete) {
+	        return SerializationUtils.serialize((Serializable) requete);
+	}
+	
+	/**
+	 * @return L'ensemble des points contenu dans la base depuis une date donnée
+	 */
+	public ArrayList<Point> getListeDePoints() {
+		return listeDePoints;
+	}
+	
+	/**
+	 * Permet d'assigner la liste de points
+	 * @param listeDePoints L'ensemble des points contenu dans la base depuis une date donnée
+	 */
+	public void setListeDePoints(ArrayList<Point> listeDePoints) {
+		this.listeDePoints = listeDePoints;
+	}
+}

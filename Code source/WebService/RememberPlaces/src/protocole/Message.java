@@ -14,6 +14,10 @@ public class Message implements Serializable{
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
 	/**
+	 * Num�ro de version
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * Le port de celui qui envois la requ�te
 	 */
 	private int port;

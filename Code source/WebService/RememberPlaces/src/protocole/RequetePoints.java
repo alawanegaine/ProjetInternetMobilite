@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.SerializationUtils;
 
+import util.InfosServer;
 
 /**
  * La requ�te qui sera transmise au WebService. C'est elle qui contiendra la liste des points pr�sents dans la base
@@ -14,6 +15,10 @@ public class RequetePoints implements Serializable{
 	//////////////////////////////////////////////////////////////////
 	//								ATTRIBUTS						//
 	//////////////////////////////////////////////////////////////////
+	/**
+	 * Num�ro de version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * L'ensemble des points contenu dans la base depuis une date donn�e
 	 */
@@ -53,5 +58,13 @@ public class RequetePoints implements Serializable{
 	 */
 	public ArrayList<Point> getListeDePoints() {
 		return listeDePoints;
+	}
+	
+	/**
+	 * Permet d'assigner la liste de points
+	 * @param listeDePoints L'ensemble des points contenu dans la base depuis une date donn�e
+	 */
+	public void setListeDePoints(ArrayList<Point> listeDePoints) {
+		this.listeDePoints = listeDePoints;
 	}
 }
