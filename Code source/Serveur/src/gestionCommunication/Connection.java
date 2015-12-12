@@ -73,6 +73,7 @@ public class Connection implements Runnable{
 	@Override
 	public void run() {
 		RequeteMessage requete = null;
+		RequeteMessage reponse = null;
 		//On regarde si c'est le bon objet qui a été envoyé
 		try {
 			Object objet = input.readObject();
@@ -85,10 +86,12 @@ public class Connection implements Runnable{
 				//Selon le type de requête envoyé
 				switch(requete.getMethode()){
 				case getInfosPoint :
-					RequeteMessage reponse = maBase.getInfosPoint(requete.getIdPhoto());
+					reponse = maBase.getInfosPoint(requete.getIdPhoto());
 					output.writeObject(reponse);
 					break;
 				case add :
+					reponse = maBase.ajouterPoint(requete);
+					output.writeObject(reponse);
 					break;
 				}
 			}

@@ -56,7 +56,7 @@ public class Serveur {
 	private static void demarrerServeur(){	
 		//On crée l'objet de connexion à la base
 		maBase = new Database();
-		maBase.runTest();
+		//maBase.runTest();
 		
 		
 		//On change l'état du serveur

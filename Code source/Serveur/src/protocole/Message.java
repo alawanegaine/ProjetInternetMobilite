@@ -30,9 +30,9 @@ public class Message implements Serializable{
 	 */
 	private Methode methode;
 	/**
-	 * La photo
+	 * La photo encodée en String
 	 */
-	private ImageIcon photo;
+	private String photo;
 	/**
 	 * Le titre associé à la photo 
 	 */
@@ -168,16 +168,16 @@ public class Message implements Serializable{
 	}
 	
 	/**
-	 * @return La photo
+	 * @return La photo encodée en String
 	 */
-	public ImageIcon getPhoto() {
+	public String getPhoto() {
 		return photo;
 	}
 	
 	/**
-	 * @param photo La photo
+	 * @param photo La photo encodée en String
 	 */
-	public void setPhoto(ImageIcon photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 	

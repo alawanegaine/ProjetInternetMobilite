@@ -36,7 +36,7 @@ public class FileUdp implements Runnable{
 	/**
 	 * Le nom de notre fil d'execution
 	 */
-	private String nomDuFil = "Fil d'éxecution requête";
+	private String nomDuFil = "Fil UDP";
 	/**
 	 * L'objet permettant de faire le lien avec la BDD
 	 */
@@ -61,7 +61,7 @@ public class FileUdp implements Runnable{
 		
 		try {
 			monSocket = new DatagramSocket(ServeurInfo.getPortUdp());
-			System.out.println("Le fil d'execution gérant les demandes de données est correctement démarré, au port " + ServeurInfo.getPortUdp());
+			System.out.println(nomDuFil + " est correctement démarré, au port " + ServeurInfo.getPortUdp());
 			byte[] buffer = new byte[10000];
 			while(ServeurInfo.estEnMarche()){
 				DatagramPacket paquet = new DatagramPacket(buffer, buffer.length);

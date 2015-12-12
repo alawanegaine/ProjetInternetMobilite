@@ -39,7 +39,7 @@ public class FileTcp implements Runnable{
 	/**
 	 * Le nom de notre fil d'execution
 	 */
-	private String nomDuFil = "Fil d'éxecution ajout";
+	private String nomDuFil = "Fil TCP";
 	/**
 	 * L'objet permettant de faire le lien avec la BDD
 	 */
