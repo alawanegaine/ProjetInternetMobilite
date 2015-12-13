@@ -76,7 +76,7 @@ public final class R {
 		public static final int normal = 0x7f0c000a;
 		public static final int satellite = 0x7f0c001c;
 		public static final int terrain = 0x7f0c001d;
-		public static final int text2 = 0x7f0c005c;
+		public static final int text2 = 0x7f0c0061;
 	}
 	public static final class integer {
 		public static final int google_play_services_version = 0x7f0a0004;

@@ -2,15 +2,24 @@ package com.example.johan.essaiscarte;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.maps.GoogleMap;
@@ -27,16 +36,56 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
+
 public class MapsActivity extends FragmentActivity implements LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    LocationManager lm;
+    private LocationManager lm;
+    private WebServiceConnection task = null;
+    private double latitude;
+    private double longitude;
+    private double altitude;
+    private float accuracy;
+    private Button boutonReload;
+    private Button boutonPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
+        mMap.setMyLocationEnabled(true);
+
+
+        boutonReload = (Button) findViewById(R.id.button_Reload);
+        boutonPhoto = (Button) findViewById(R.id.button_Photo);
+
+        boutonPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BpPhoto(v);
+
+            }
+        });
+
+        boutonReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BpReloadPoint(v);
+            }
+        });
+
+
     }
 
     @Override
@@ -44,19 +93,22 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         super.onResume();
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER))
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
+            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, this);
 
         setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        lm.removeUpdates(this);
     }
 
     /**
@@ -94,35 +146,67 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap(){
-        LatLng maison = new LatLng(45.3699672, -71.9827605);
+        LatLng universite = new LatLng(45.379575, -71.926471);
         Marker maisonmarqueur = mMap.addMarker(new MarkerOptions().position(new LatLng(45.3699672, -71.9827605)).title("Home sweet home").snippet("Ici habite les 3 colocs"));
+        mMap.clear();
 
-        MarkerOptions marqueurOption = new MarkerOptions();
-        marqueurOption.position(new LatLng(45.3734285, -71.9827605)).title("Point");
+        task = new WebServiceConnection(MapsActivity.this,universite);
+        AsyncTask<LatLng, Void, JSONObject> retour = task.execute();
 
-        Marker marqueur = mMap.addMarker(marqueurOption);
+        mMap.addMarker(new MarkerOptions().position(new LatLng(45.379783, -71.926283)).title("Vous êtent là").icon(BitmapDescriptorFactory.fromResource(R.mipmap.localisation)));
 
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                
-                return null;
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = retour.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+
+        JSONArray listPoints = null;
+        try {
+            String success = jsonObject.getString("success");
+            System.out.println(success);
+            listPoints = jsonObject.getJSONArray("listPoints");
+
+            for(int i = 0; i < listPoints.length(); i++)
+            {
+                JSONObject point = listPoints.getJSONObject(i);
+
+                String longitude = point.getString("longitude");
+                String latitude = point.getString("latitude");
+                int idPhoto = point.getInt("idPhoto");
+                String dateAjout = point.getString("dateAjout");
+
+                mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude))).title(String.valueOf(idPhoto)));
+
             }
 
-            @Override
-            public View getInfoContents(Marker marker) {
-                return null;
-            }
-        });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maison, 15));
-        maisonmarqueur.showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(45.378934, -71.929432), 16));
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
             @Override
             public boolean onMarkerClick(Marker arg0) {
-                if (arg0.getTitle().equals("Home sweet home")) // if marker source is clicked
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(45.3781823, -71.9302535)).title("Université"));
+
+                if(arg0.getTitle().compareTo("Vous êtent là") == 0)
+                {
+                    arg0.showInfoWindow();
+                }else{
+                    Intent i = new Intent(MapsActivity.this, DetailPhoto.class);
+                    String titre = arg0.getTitle();
+                    i.putExtra("titre", titre);
+                    startActivity(i);
+                }
+
+
+
                 return true;
             }
         });
@@ -130,21 +214,63 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        altitude = location.getAltitude();
+        accuracy = location.getAccuracy();
 
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15));
+        setUpMap();
+        mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Vous êtent là").icon(BitmapDescriptorFactory.fromResource(R.mipmap.localisation)));
+
+
+
+        String msg = String.format(
+                getResources().getString(R.string.new_location), latitude,
+                longitude, altitude, accuracy);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+
+    /*GeoPoint p = new GeoPoint((int) (latitude * 1E6), (int) (longitude * 1E6));
+    mc.animateTo(p);
+    mc.setCenter(p);*/
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
+        String newStatus = "";
+        switch (status) {
+            case LocationProvider.OUT_OF_SERVICE:
+                newStatus = "OUT_OF_SERVICE";
+                break;
+            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                newStatus = "TEMPORARILY_UNAVAILABLE";
+                break;
+            case LocationProvider.AVAILABLE:
+                newStatus = "AVAILABLE";
+                break;
+        }
+        String msg = String.format(getResources().getString(R.string.provider_disabled), provider, newStatus);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
+        String msg = String.format(getResources().getString(R.string.provider_enabled), provider);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        String msg = String.format(getResources().getString(R.string.provider_disabled), provider);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 
+    /** Called when the user touches the button */
+    public void BpReloadPoint(View view) {
+        setUpMap();
+    }
+    /** Called when the user touches the button */
+    public void BpPhoto(View view) {
+        // Do something in response to button click
     }
 }

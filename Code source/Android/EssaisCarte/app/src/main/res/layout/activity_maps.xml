@@ -1,4 +1,41 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/button_Reload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Charger points"
+        android:onClick="BpReloadPoint"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dip" />
+
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/button_Photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prendre photo"
+        android:onClick="BpPhoto"
+        android:layout_marginLeft="160dip"
+        android:layout_marginRight="25dip"
+        android:layout_alignParentBottom="true"/>
+
+    <SeekBar
+        android:id="@+id/volume_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:max="100"
+        android:progress="0"
+        android:secondaryProgress="0"
+        android:layout_alignParentTop="true"
+        android:text="Distance maximal"/>
+</RelativeLayout>
