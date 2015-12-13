@@ -66,6 +66,7 @@ public class GetListPoints extends HttpServlet {
 			response.getWriter().println(myObj);
 			response.getWriter().close();
 		} catch (Exception e){
+			//e.printStackTrace();
 			// On informe le client que les données ne sont pas correctes
 			myObj.addProperty("success", false);
 			response.getWriter().println(myObj);

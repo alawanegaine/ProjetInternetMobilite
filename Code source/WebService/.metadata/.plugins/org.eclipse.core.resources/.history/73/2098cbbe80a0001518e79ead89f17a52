@@ -1,6 +1,15 @@
 package servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +22,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import protocole.Data;
+import protocole.Methode;
 import protocole.Point;
+import protocole.RequeteMessage;
+import protocole.RequetePoints;
 import thread.GetListPointThread;
+import util.InfosServer;
 
 /**
  * Servlet implementation class GetListPoints
@@ -37,9 +50,7 @@ public class GetListPoints extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Data data = new Gson().fromJson(request.getReader(), Data.class);
-		Gson gson = new Gson(); 
-		JsonObject myObj = new JsonObject();
-		JsonElement listPointObj ;
+
 		try {
 			GetListPointThread getListPoint = new GetListPointThread(data.getLatitude(),data.getLongitude(),data.getKmMax(),data.getDateMax()) ;
 			Thread monThread = new Thread(getListPoint);
@@ -53,9 +64,9 @@ public class GetListPoints extends HttpServlet {
 			}
 			System.out.println("Après debug");
 			/* build a JSON file and send to the client */
-			
-			
-			listPointObj = gson.toJsonTree(getListPoint.getPointAGarder());
+			Gson gson = new Gson(); 
+	        JsonObject myObj = new JsonObject();
+	        JsonElement listPointObj = gson.toJsonTree(getListPoint.getPointAGarder());
 	        if(getListPoint.getPointAGarder() == null){
 	            myObj.addProperty("success", false);
 	        }
@@ -66,10 +77,7 @@ public class GetListPoints extends HttpServlet {
 			response.getWriter().println(myObj);
 			response.getWriter().close();
 		} catch (Exception e){
-			// On informe le client que les données ne sont pas correctes
-			myObj.addProperty("success", false);
-			response.getWriter().println(myObj);
-			response.getWriter().close();
+			e.printStackTrace();
 		}
 	}
 

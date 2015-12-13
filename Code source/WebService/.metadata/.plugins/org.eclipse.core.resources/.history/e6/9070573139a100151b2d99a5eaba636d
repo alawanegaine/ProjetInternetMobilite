@@ -38,7 +38,7 @@ public class GetListPoints extends HttpServlet {
 		// TODO Auto-generated method stub
 		Data data = new Gson().fromJson(request.getReader(), Data.class);
 		Gson gson = new Gson(); 
-		JsonObject myObj = new JsonObject();
+		myObj = new JsonObject();
 		JsonElement listPointObj ;
 		try {
 			GetListPointThread getListPoint = new GetListPointThread(data.getLatitude(),data.getLongitude(),data.getKmMax(),data.getDateMax()) ;
@@ -66,6 +66,7 @@ public class GetListPoints extends HttpServlet {
 			response.getWriter().println(myObj);
 			response.getWriter().close();
 		} catch (Exception e){
+			//e.printStackTrace();
 			// On informe le client que les données ne sont pas correctes
 			myObj.addProperty("success", false);
 			response.getWriter().println(myObj);
