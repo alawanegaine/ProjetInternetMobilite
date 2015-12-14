@@ -1,10 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.InfosServer;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import protocole.Data;
+import protocole.Point;
+import thread.GetListPointThread;
 
 /**
  * Servlet implementation class GetListPoints
@@ -34,7 +36,41 @@ public class GetListPoints extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//coucou
+		Data data = new Gson().fromJson(request.getReader(), Data.class);
+		Gson gson = new Gson(); 
+		JsonObject myObj = new JsonObject();
+		JsonElement listPointObj ;
+		try {
+			GetListPointThread getListPoint = new GetListPointThread(data.getLatitude(),data.getLongitude(),data.getKmMax(),data.getDateMax()) ;
+			Thread monThread = new Thread(getListPoint);
+			monThread.start();
+			
+			while(monThread.getState() != Thread.State.TERMINATED) {}
+					
+			System.out.println("Sorti de boucle !" + getListPoint.getPointAGarder().size());
+			for (Point p : getListPoint.getPointAGarder()) {
+				System.out.println("Point gardé : "+p.getLatitude()+", "+p.getLongitude() + " le " + p.getDateAjout());
+			}
+			System.out.println("Après debug");
+			/* build a JSON file and send to the client */
+			
+			
+			listPointObj = gson.toJsonTree(getListPoint.getPointAGarder());
+	        if(getListPoint.getPointAGarder() == null){
+	            myObj.addProperty("success", false);
+	        }
+	        else {
+	            myObj.addProperty("success", true);
+	        }
+	        myObj.add("listPoints", listPointObj);
+			response.getWriter().println(myObj);
+			response.getWriter().close();
+		} catch (Exception e){
+			// On informe le client que les données ne sont pas correctes
+			myObj.addProperty("success", false);
+			response.getWriter().println(myObj);
+			response.getWriter().close();
+		}
 	}
 
 	/**
@@ -44,34 +80,4 @@ public class GetListPoints extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-	public void getListPointFromServer(){
-		/* Build request to server and send */
-		Request requestGetListMatch = new Request() ;
-		Request requestGetListMatchResponse = new Request() ;
-		requestGetListMatch.setRequest(true);
-		requestGetListMatch.setMethode(Methodes.demandeListMatch);
-		requestGetListMatch.setAddress(Inet4Address.getLocalHost().getHostAddress());
-		requestGetListMatch.setPort(InfosServer.getPortserverweb());
-		
-		byte[] dataSend = Request.marshall(requestGetListMatch);
-		DatagramPacket dpSend = new DatagramPacket( dataSend, dataSend.length, InetAddress.getByName(InfosServer.getIpserverjava()), InfosServer.getPortserverweb()) ;  		
-		DatagramSocket dsSend = new DatagramSocket();
-		
-		dsSend.send(dpSend);
-		
-		if(dsSend != null)
-			dsSend.close();
-			
-		/* Now, receive informations */ 
-		byte[] dataReceive = new byte[5000] ;
-		DatagramPacket dpReceive = new DatagramPacket(dataReceive, dataReceive.length);
-		DatagramSocket dsReceive = new DatagramSocket(InfosServer.getPortserverweb());
-		dsReceive.setSoTimeout(2000);
-		
-		dsReceive.receive(dpReceive);
-		requestGetListMatchResponse = Request.unmarshall(dpReceive.getData());
-		dsReceive.close();
-	}
-
 }

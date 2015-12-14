@@ -1,10 +1,17 @@
 package util;
 
 public class InfosServer {
-	private final static String ipServerJava = "192.168.0.15";
-	private final static int portServerJava = 11111 ;
-	private final static int portServerWeb = 11111 ;
-	private final static int distanceMaxPoints = 15 ;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final static String ipServerJava = "192.168.0.52";
+	private final static int portServerJava = 15000 ;
+	private final static int portServerWeb = 15000 ;
+	private final static int distanceKmMaxPoints = 15 ;
+	private final static double longitude = -71.983636 ;
+	private final static double latitude = 45.370139 ;
+	private final static int nbEssaiEnvoiMax = 3 ;
 	
 	public static String getIpserverjava() {
 		return ipServerJava;
@@ -16,6 +23,22 @@ public class InfosServer {
 	
 	public static int getPortserverweb() {
 		return portServerWeb;
+	}
+	
+	public static int getDistancekmmaxpoints() {
+		return distanceKmMaxPoints;
+	}
+	
+	public static double getLatitude() {
+		return latitude;
+	}
+	
+	public static double getLongitude() {
+		return longitude;
+	}
+	
+	public static int getNbessaienvoimax() {
+		return nbEssaiEnvoiMax;
 	}
 
 }
