@@ -88,7 +88,7 @@ public class GetListPointThread implements Runnable{
 			requestGetListPoints.setDateAjout(simpleDateFormat.parse(dateMaxString));
 			
 			byte[] dataSend = RequeteMessage.marshall(requestGetListPoints);
-			dpSend = new DatagramPacket( dataSend, dataSend.length, InetAddress.getByName(InfosServer.getIpserverjava()), InfosServer.getPortserverjava()) ;  		
+			dpSend = new DatagramPacket( dataSend, dataSend.length, InetAddress.getByName(InfosServer.getIpserverjava()), InfosServer.getPortserverweb()) ;  		
 			dsSend = new DatagramSocket();
 			
 			System.out.println("Envoi de la requête ...");
