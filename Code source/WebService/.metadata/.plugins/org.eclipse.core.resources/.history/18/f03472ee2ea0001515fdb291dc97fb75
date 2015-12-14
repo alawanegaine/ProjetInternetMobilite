@@ -1,0 +1,49 @@
+$(document).ready(function() { 
+    $("#refresh").click(function(event) {
+    	$.ajax({
+    		   url: 'GetListPoints',
+    		   type: 'POST',
+    		   async : true,
+    		   data: {
+    		   },
+    		   error: function() {
+    		   },
+    		   success: function(data) {
+    			   //GoogleMaps(data);
+    			   alert(data.success);
+    		   }
+   		});
+  });                
+});
+// Google Maps
+function GoogleMaps(data) {
+	for(var point in data.listPoints){
+		alert(point);
+	}
+    /*var latitude = 45.379575 ;
+    var longitude = -71.926471 ;
+
+    var location = new google.maps.LatLng(latitude, longitude);
+    var marker;
+    var map;
+
+    var mapOptions = {
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            center: location
+    };
+
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    marker = new google.maps.Marker({
+        map:map,
+        animation: google.maps.Animation.DROP,
+        position: location
+    });
+    var location = new google.maps.LatLng(45.370139, -71.983636);
+    marker = new google.maps.Marker({
+        map:map,
+        animation: google.maps.Animation.DROP,
+        position: location
+    });*/
+}

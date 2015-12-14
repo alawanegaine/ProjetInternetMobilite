@@ -1,0 +1,10 @@
+127.0.0.1 - - [12/Dec/2015:20:08:08 -0500] "GET / HTTP/1.1" 404 962
+192.168.0.60 - - [12/Dec/2015:20:09:22 -0500] "GET /RemembersPlaces/GetListPoints HTTP/1.1" 404 1020
+192.168.0.60 - - [12/Dec/2015:20:09:22 -0500] "GET /favicon.ico HTTP/1.1" 404 984
+0:0:0:0:0:0:0:1 - - [12/Dec/2015:20:09:29 -0500] "GET /RememberPlaces/GetListPoints HTTP/1.1" 500 1466
+192.168.0.60 - - [12/Dec/2015:20:09:56 -0500] "GET /RememberPlaces/GetListPoints HTTP/1.1" 500 1466
+0:0:0:0:0:0:0:1 - - [12/Dec/2015:20:30:06 -0500] "GET /RememberPlaces/GetListPoints HTTP/1.1" 500 1466
+127.0.0.1 - - [12/Dec/2015:20:30:19 -0500] "GET / HTTP/1.1" 404 962
+0:0:0:0:0:0:0:1 - - [12/Dec/2015:20:30:23 -0500] "GET /RememberPlaces/GetListPoints HTTP/1.1" 500 1466
+127.0.0.1 - - [12/Dec/2015:20:31:21 -0500] "GET / HTTP/1.1" 404 962
+0:0:0:0:0:0:0:1 - - [12/Dec/2015:20:31:23 -0500] "GET /RememberPlaces/GetListPoints HTTP/1.1" 200 18
