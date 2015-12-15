@@ -240,6 +240,7 @@ public class TakeAPicture extends AppCompatActivity implements LocationListener 
                 descriptionTV.setVisibility(View.VISIBLE);
                 description.setVisibility(View.VISIBLE);
                 SendButton.setVisibility(View.VISIBLE);
+                twitterButton.setVisibility(View.VISIBLE);
                 try{
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
                 } catch (IOException e){

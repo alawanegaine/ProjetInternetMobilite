@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
@@ -302,7 +304,7 @@ public class LoginTwitter extends Activity implements View.OnClickListener {
 
                 // Update status
                 StatusUpdate statusUpdate = new StatusUpdate(status);
-                File f = new File(String.valueOf(fileUri));
+                File f = new File(fileUri.getPath());
                 statusUpdate.setMedia(f);
 
 
