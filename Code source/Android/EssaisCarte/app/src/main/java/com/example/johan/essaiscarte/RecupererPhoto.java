@@ -8,6 +8,7 @@ import protocole.Message;
 import protocole.Methode;
 import protocole.RequeteMessage;
 
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,7 +47,7 @@ public class RecupererPhoto extends AsyncTask<Integer, Void, RequeteMessage> {
     @Override
     protected RequeteMessage doInBackground(Integer... params) {
         try {
-            serveurSocket = new Socket(InetAddress.getByName("192.168.43.158"), 25000);
+            serveurSocket = new Socket(InetAddress.getByName("192.168.0.8"), 25000);
             output = new ObjectOutputStream(serveurSocket.getOutputStream());
             input = new ObjectInputStream(serveurSocket.getInputStream());
 

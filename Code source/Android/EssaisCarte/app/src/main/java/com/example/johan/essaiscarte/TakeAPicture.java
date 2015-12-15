@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -46,6 +47,7 @@ import java.util.Date;
 import protocole.Message;
 import protocole.Methode;
 import protocole.RequeteMessage;
+import twitter4j.TwitterListener;
 
 public class TakeAPicture extends AppCompatActivity implements LocationListener {
 
@@ -56,6 +58,7 @@ public class TakeAPicture extends AppCompatActivity implements LocationListener 
     //initialisation
     Button PictureButton = null;
     Button SendButton =null;
+    Button twitterButton = null;
     ImageView photo;
     TextView titreTV=null;
     EditText titre=null;
@@ -64,6 +67,7 @@ public class TakeAPicture extends AppCompatActivity implements LocationListener 
 
     String sTitre=null;
     String sDescription=null;
+    Bitmap imageBitmap;
 
     double latitude;
     double longitude;
@@ -124,10 +128,12 @@ public class TakeAPicture extends AppCompatActivity implements LocationListener 
         titre=(EditText)findViewById(R.id.editTitre);
         descriptionTV=(TextView)findViewById(R.id.description);
         description=(EditText)findViewById(R.id.editDescription);
+        twitterButton = (Button) findViewById(R.id.twitter);
 
 
         PictureButton.setOnClickListener(PictureListener);
         SendButton.setOnClickListener(SendListener);
+        twitterButton.setOnClickListener(TwiterListener);
 
         sTitre=titre.getText().toString();
         sDescription=description.getText().toString();
@@ -241,6 +247,7 @@ public class TakeAPicture extends AppCompatActivity implements LocationListener 
                 }
                 //on affiche le bitmap de la photo
                 photo.setImageBitmap(bitmap);
+                imageBitmap = bitmap;
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(),R.string.result_canceled, Toast.LENGTH_LONG).show();
             } else {
@@ -389,6 +396,16 @@ public class TakeAPicture extends AppCompatActivity implements LocationListener 
 
     }
 
+    private View.OnClickListener TwiterListener= new View.OnClickListener(){
+        @Override
+        public void onClick(View v){
+            //avant l'envoi, on vérifie que la localisation est activée et qu'on a au moins un titre pour la photo
 
+            Intent twitterIntent = new Intent(TakeAPicture.this, LoginTwitter.class);
+            twitterIntent.putExtra("image", fileUri);
+            startActivity(twitterIntent);
+
+        }
+    };
 
 }

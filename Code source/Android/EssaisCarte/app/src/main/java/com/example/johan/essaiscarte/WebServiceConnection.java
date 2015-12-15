@@ -35,7 +35,7 @@ public class WebServiceConnection extends AsyncTask<LatLng, Void, JSONObject> {
     @Override
     protected JSONObject doInBackground(LatLng... params) {
         try {
-            URL url = new URL("http://192.168.43.154:8080/RememberPlaces/GetListPoints");
+            URL url = new URL("http://192.168.0.8:8080/WebService/GetListPoints");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 

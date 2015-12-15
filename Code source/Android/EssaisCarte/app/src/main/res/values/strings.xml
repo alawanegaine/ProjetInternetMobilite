@@ -26,4 +26,19 @@
     <string name="error_description">Erreur : la photo doit avoir une description !</string>
     <string name="error">Il y a eu une erreur</string>
     <string name="result_canceled">L\'opération a été annulée!</string>
+
+
+    <string name="hello">Hello, </string>
+    <string name="login_instructions">Login to twitter</string>
+    <string name="share_instructions">Enter share message</string>
+    <string name="btn_login">Login to Twitter</string>
+    <string name="btn_share">Share</string>
+
+
+    <string name="twitter_callback">oob</string>
+    <string name="twitter_consumer_key">tugYhrVgdd0hyDfKOuYGFIKg0</string>
+    <string name="twitter_consumer_secret">YPOwpMVxhgtuRQVScQZWH4IfvT61M8tRl4QNk1oJEFTtkHbJgR</string>
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
+    <string name="title_activity_login_twitter">LoginTwitter</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 </resources>
