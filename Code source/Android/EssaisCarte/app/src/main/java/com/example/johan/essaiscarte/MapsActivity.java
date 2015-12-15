@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements LocationListener {
@@ -55,8 +57,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     private double longitude;
     private double altitude;
     private float accuracy;
-    private Button boutonReload;
-    private Button boutonPhoto;
+    private ImageButton boutonReload;
+    private ImageButton boutonPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +69,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         mMap.setMyLocationEnabled(true);
 
 
-        boutonReload = (Button) findViewById(R.id.button_Reload);
-        boutonPhoto = (Button) findViewById(R.id.button_Photo);
+        boutonReload = (ImageButton) findViewById(R.id.button_Reload);
+        boutonPhoto = (ImageButton) findViewById(R.id.button_Photo);
 
         boutonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,14 +148,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap(){
-        LatLng universite = new LatLng(45.379575, -71.926471);
+        LatLng localisation = new LatLng(latitude, longitude);
         Marker maisonmarqueur = mMap.addMarker(new MarkerOptions().position(new LatLng(45.3699672, -71.9827605)).title("Home sweet home").snippet("Ici habite les 3 colocs"));
         mMap.clear();
 
-        task = new WebServiceConnection(MapsActivity.this,universite);
+        task = new WebServiceConnection(MapsActivity.this,localisation);
         AsyncTask<LatLng, Void, JSONObject> retour = task.execute();
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(45.379783, -71.926283)).title("Vous êtent là").icon(BitmapDescriptorFactory.fromResource(R.mipmap.localisation)));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Vous êtent là").icon(BitmapDescriptorFactory.fromResource(R.mipmap.localisation)));
 
         JSONObject jsonObject = null;
         try {
@@ -189,7 +191,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
             e.printStackTrace();
         }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(45.378934, -71.929432), 16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
             @Override
@@ -219,9 +221,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         altitude = location.getAltitude();
         accuracy = location.getAccuracy();
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15));
-        setUpMap();
-        mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Vous êtent là").icon(BitmapDescriptorFactory.fromResource(R.mipmap.localisation)));
+        //setUpMap();
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Vous êtent là").icon(BitmapDescriptorFactory.fromResource(R.mipmap.localisation)));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+
 
 
 
@@ -271,6 +274,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     }
     /** Called when the user touches the button */
     public void BpPhoto(View view) {
-        // Do something in response to button click
+
+        Intent takepicture = new Intent(MapsActivity.this, TakeAPicture.class);
+
+        startActivity(takepicture);
+
     }
 }

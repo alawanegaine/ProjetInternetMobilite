@@ -10,4 +10,20 @@
     <string name="provider_disabled">The provider %s is now disabled</string>
     <string name="provider_new_status">The provider %1$s has now a new status %2$s</string>
     <string name="new_location">New Location : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s avec une précision de %4$s mètres </string>
+    <string name="title_activity_take_apicture">TakeAPicture</string>
+
+    <string name="add_photo">Ajouter une photo</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="add_title">Ajouter un titre :</string>
+    <string name="add_description">Ajouter une description :</string>
+    <string name="send">Envoyer</string>
+    <string name="gps_network_not_enabled">La localisation n\'est pas activée!</string>
+    <string name="open_location_settings">Activer la localisation</string>
+    <string name="Cancel">Annuler</string>
+    <string name="send_confirm">La photo a bien été envoyée ! </string>
+    <string name="error_location">Erreur : la localisation n\'est pas activée !</string>
+    <string name="error_title">Erreur : la photo doit avoir un titre !</string>
+    <string name="error_description">Erreur : la photo doit avoir une description !</string>
+    <string name="error">Il y a eu une erreur</string>
+    <string name="result_canceled">L\'opération a été annulée!</string>
 </resources>

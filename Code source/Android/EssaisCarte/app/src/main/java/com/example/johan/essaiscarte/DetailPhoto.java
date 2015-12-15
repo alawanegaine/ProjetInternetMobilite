@@ -44,6 +44,7 @@ public class DetailPhoto extends AppCompatActivity {
 
         int idPhoto = Integer.parseInt(i.getStringExtra("titre"));
 
+        titre.setText("");
         
         task = new RecupererPhoto(idPhoto,DetailPhoto.this);
         AsyncTask<Integer, Void, RequeteMessage> retour = task.execute();
