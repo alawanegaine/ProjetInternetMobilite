@@ -1,32 +1,41 @@
-
 $(document).ready(function() {
     $("#refresh").click(function(event) {
-    	var longitude ;
-    	var latitude ;
-    	// get actual position
-    	getLocation(function(position){
-        	latitude = position.latitude ;
-        	longitude = position.longitude ;
+    	$.mobile.loading('show', {
+    	    theme: "b",
+    	    text: "Loading point...",
+    	    textonly: true,
+    	    textVisible: true
     	});
-    	// construct json to send
-    	var Json = {
- 			   latitude : latitude,
-			   longitude : longitude 
-	    }
-    	$.ajax({
-    		   url: 'GetListPoints',
-    		   type: 'POST',
-    		   async : true,
-     		   dataType: "json",
-     		   contentType: 'application/json; charset=utf-8',
-    		   data: JSON.stringify(Json),
-    		   error: function() {
-    		   },
-    		   success: function(data) {
-    			   GoogleMaps(data);
-    		   }
-   		});
-  });                
+    	getLocation(function(position){
+    		if(position == null){
+    			alert("requête non envoyée car pas de géolocalisation");
+    		}
+    		else {
+            	// construct json to send
+            	var Json = {
+         			   latitude : position.latitude ,
+        			   longitude : position.longitude,
+        			   kmMax : $("#kmMax").val(),
+        			   nbMoisMax : $("#nbMoisMax").val()
+        	    }  
+            	$.ajax({
+         		   url: 'GetListPoints',
+         		   type: 'POST',
+         		   async : true,
+          		   dataType: "json",
+          		   contentType: 'application/json; charset=utf-8',
+         		   data: JSON.stringify(Json),
+         		   error: function() {
+         		   },
+         		   success: function(data) {
+         			  $.mobile.loading('hide', {});
+         			   GoogleMaps(data);
+         		   }
+        		});
+    		}
+    	});  	
+  });    
+  $("#refresh").trigger('click');
 });
 // Google Maps
 function GoogleMaps(data) {
@@ -113,5 +122,6 @@ function getLocation(callback) {
         });
     } else {
         alert("Geolocation is not supported by this browser.");
+        callback(null);
     }
 }

@@ -13,35 +13,54 @@
    <script src="./Js/jquery.timer.js"></script>
 </head>
 <body>
-<div id="map" style="width: 400px; height: 300px;"></div> 
-
-   <script type="text/javascript"> 
-   		var address = '4818 rue de gaspé, Sherbrooke, Canada';
-
-	   	var map = new google.maps.Map(document.getElementById('map'), { 
-	       mapTypeId: google.maps.MapTypeId.TERRAIN,
-	       zoom: 12
-	   	});
-	   	
-   		var geocoder = new google.maps.Geocoder();
-
-	   geocoder.geocode({
-	      'address': address
-	   }, 
-	   function(results, status) {
-	      if(status == google.maps.GeocoderStatus.OK) {
-	         new google.maps.Marker({
-	            position: results[0].geometry.location,
-	            map: map
-	         });
-	         map.setCenter(results[0].geometry.location);
-	      }
-	      else {
-	         // Google couldn't geocode this request. Handle appropriately.
-	      }
-	   });
-   </script> 
-   <button id="refresh" href="#demo-links" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-refresh ui-btn-icon-left ui-btn-inline">Rafraîchir les points</button>
-   <script src="./Js/maps.js"></script>
+	<div class="ui-grid-a">
+		<div style="width:55%" class="ui-block-a">
+			<div id="map" style="width: 780px; height: 600px;"></div> 
+		</div>
+		   <script type="text/javascript"> 
+		   		var address = '4818 rue de gaspé, Sherbrooke, Canada';
+		
+			   	var map = new google.maps.Map(document.getElementById('map'), { 
+			       mapTypeId: google.maps.MapTypeId.TERRAIN,
+			       zoom: 12
+			   	});
+			   	
+		   		var geocoder = new google.maps.Geocoder();
+		
+			   geocoder.geocode({
+			      'address': address
+			   }, 
+			   function(results, status) {
+			      if(status == google.maps.GeocoderStatus.OK) {
+			         new google.maps.Marker({
+			            position: results[0].geometry.location,
+			            map: map
+			         });
+			         map.setCenter(results[0].geometry.location);
+			      }
+			      else {
+			         // Google couldn't geocode this request. Handle appropriately.
+			      }
+			   });
+		   </script>		   
+			<div style="width:45%" class="ui-block-b">
+			   <form>
+			    	<label for="slider-1">Km max pour la recherche des points :</label>
+			    	<input type="range" name="slider-1" id="kmMax" min="0" max="100" value="20">
+					<div class="ui-field-contain">
+					    <label for="select-native-1">Date maximum de recherche :</label>
+					    <select name="select-native-1" id="nbMoisMax">
+					        <option value="1">1 mois</option>
+					        <option value="3">3 mois</option>
+					        <option value="6">6 mois</option>
+					        <option value="12">1 an</option>
+					 		<option value="24">2 an</option>
+					    </select>
+					</div>
+				</form>
+		   		<button id="refresh" href="#demo-links" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-refresh ui-btn-icon-left ui-btn-inline">Rafraîchir les points</button>
+				<script src="./Js/maps.js"></script>
+		   </div>
+  	</div>
 </body>
 </html>
