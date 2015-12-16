@@ -43,6 +43,16 @@ public class GetListPointThread implements Runnable{
 		ArrayList<Point> points;
 		
 		try {
+			// if kmMax no referenced
+			if(kmMax == 0){
+				System.out.println("Km max pas renseignés");
+				kmMax = InfosServer.getDistancekmmaxpoints();
+			}
+			// same for the date
+			if(dateMax == null){
+				System.out.println("Date max pas renseignés");
+				dateMax = InfosServer.getDatemax();
+			}
 			points = null;
 			int nbEssai = 0 ;
 			while(points == null & nbEssai < InfosServer.getNbessaienvoimax()){
@@ -51,14 +61,13 @@ public class GetListPointThread implements Runnable{
 				points = getListPointFromServer();
 				nbEssai++ ;
 			}
-			// delete when server works .. 
+			// delete when server works
 			if(points == null)
 				points = getSampleListPoints() ;
 			for (Point point : points) {
-				//double d = DistanceCalculator.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(point.getLatitude()), Double.parseDouble(point.getLongitude()), "K");
-				double d = DistanceCalculator.distance(InfosServer.getLatitude(), InfosServer.getLongitude(), Double.parseDouble(point.getLatitude()), Double.parseDouble(point.getLongitude()), "K");
+				double d = DistanceCalculator.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(point.getLatitude()), Double.parseDouble(point.getLongitude()), "K");
 				System.out.println("Distance entre les deux points : "+d+" kms");
-				if(d <= InfosServer.getDistancekmmaxpoints()){
+				if(d <= kmMax){
 					pointAGarder.add(point);
 				}
 			}
@@ -84,14 +93,13 @@ public class GetListPointThread implements Runnable{
 			requestGetListPoints.setAdresseIp(Inet4Address.getLocalHost().getHostAddress());
 			requestGetListPoints.setPort(InfosServer.getPortserverweb());
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		    String dateMaxString = "22/06/2015";
-			requestGetListPoints.setDateAjout(simpleDateFormat.parse(dateMaxString));
+			requestGetListPoints.setDateAjout(simpleDateFormat.parse(dateMax));
 			
 			byte[] dataSend = RequeteMessage.marshall(requestGetListPoints);
 			dpSend = new DatagramPacket( dataSend, dataSend.length, InetAddress.getByName(InfosServer.getIpserverjava()), InfosServer.getPortserverjava()) ;  		
 			dsSend = new DatagramSocket();
 			
-			System.out.println("Envoi de la requête ...");
+			System.out.println("Envoi de la requête au serveur...");
 			dsSend.send(dpSend);
 			
 			if(dsSend != null)
@@ -105,7 +113,7 @@ public class GetListPointThread implements Runnable{
 			dsReceive.setSoTimeout(2000);
 			
 			dsReceive.receive(dpReceive);
-			System.out.println("Requête reçue !!");
+			System.out.println("Requête du serveur reçue !!");
 			requestGetListPointsResponse = RequetePoints.unmarshall(dpReceive.getData());
 			dsReceive.close();
 			

@@ -1,0 +1,90 @@
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import protocole.Data;
+import protocole.Point;
+import thread.GetListPointThread;
+import util.InfosServer;
+
+/**
+ * Servlet implementation class GetListPoints
+ */
+@WebServlet("/GetListPoints")
+public class GetListPoints extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public GetListPoints() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		Data data = new Gson().fromJson(request.getReader(), Data.class);
+		Gson gson = new Gson(); 
+		JsonObject myObj = new JsonObject();
+		JsonElement listPointObj ;
+		try {
+			System.out.println("latitude client : "+data.getLatitude());
+			System.out.println("longitude client : "+data.getLongitude());
+			System.out.println("km client : "+data.getKmMax());
+			System.out.println("date client : "+data.getDateMax());
+			GetListPointThread getListPoint = new GetListPointThread(data.getLatitude(),data.getLongitude(),data.getKmMax(),data.getDateMax()) ;
+			Thread monThread = new Thread(getListPoint);
+			monThread.start();
+			
+			while(monThread.getState() != Thread.State.TERMINATED) {}
+					
+			System.out.println("Sorti de boucle ! Nb de points : " + getListPoint.getPointAGarder().size());
+			for (Point p : getListPoint.getPointAGarder()) {
+				System.out.println("Point gardé : "+p.getLatitude()+", "+p.getLongitude() + " le " + p.getDateAjout());
+			}
+			System.out.println("Après debug");
+			/* build a JSON file and send to the client */			
+			listPointObj = gson.toJsonTree(getListPoint.getPointAGarder());
+	        if(getListPoint.getPointAGarder() == null){
+	            myObj.addProperty("success", false);
+	        }
+	        else {
+	            myObj.addProperty("success", true);
+	        }
+	        myObj.add("listPoints", listPointObj);
+			response.getWriter().println(myObj);
+			response.getWriter().close();
+		} catch (Exception e){
+			// On informe le client que les données ne sont pas correctes
+			myObj.addProperty("success", false);
+			response.getWriter().println(myObj);
+			response.getWriter().close();
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	
+	public String getDateFromMonth(int nbMois){
+		return InfosServer.getDatemax();
+	}
+}
