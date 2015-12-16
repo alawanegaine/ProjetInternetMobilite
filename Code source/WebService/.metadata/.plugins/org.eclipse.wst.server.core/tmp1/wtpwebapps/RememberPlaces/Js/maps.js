@@ -1,12 +1,25 @@
-$(document).ready(function() { 
+
+$(document).ready(function() {
     $("#refresh").click(function(event) {
+    	var longitude ;
+    	var latitude ;
+    	// get actual position
+    	getLocation(function(position){
+        	latitude = position.latitude ;
+        	longitude = position.longitude ;
+    	});
+    	// construct json to send
+    	var Json = {
+ 			   latitude : latitude,
+			   longitude : longitude 
+	    }
     	$.ajax({
     		   url: 'GetListPoints',
     		   type: 'POST',
     		   async : true,
      		   dataType: "json",
-    		   data: {
-    		   },
+     		   contentType: 'application/json; charset=utf-8',
+    		   data: JSON.stringify(Json),
     		   error: function() {
     		   },
     		   success: function(data) {
@@ -88,4 +101,17 @@ function GoogleMaps(data) {
 		map.fitBounds(bounds);
 	}
 	autoCenter();
+}
+function getLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+        	var coords = {
+        	       	latitude : position.coords.latitude,
+        	       	longitude : position.coords.longitude
+    		} ;
+        	callback(coords);
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
 }

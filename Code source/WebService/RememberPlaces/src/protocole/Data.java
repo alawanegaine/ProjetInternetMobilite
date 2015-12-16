@@ -5,14 +5,14 @@ public class Data {
 	private String latitude ;
 	private String longitude ;
 	private int kmMax ;
-	private String dateMax ;
+	private int nbMoisMax ;
 	
 	public Data() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getDateMax() {
-		return dateMax;
+	public int getMoisMax() {
+		return nbMoisMax;
 	}
 	
 	public int getKmMax() {
@@ -27,8 +27,8 @@ public class Data {
 		return longitude;
 	}
 	
-	public void setDateMax(String dateMax) {
-		this.dateMax = dateMax;
+	public void setNbMoisMax(int nbMoisMax) {
+		this.nbMoisMax = nbMoisMax;
 	}
 	
 	public void setKmMax(int kmMax) {

@@ -11,7 +11,8 @@ public class InfosServer {
 	private final static int distanceKmMaxPoints = 15 ;
 	private final static double longitude = -71.983636 ;
 	private final static double latitude = 45.370139 ;
-	private final static int nbEssaiEnvoiMax = 3 ;
+	private final static int nbEssaiEnvoiMax = 0 ;
+	private final static String dateMax = "22/06/2015" ;
 	
 	public static String getIpserverjava() {
 		return ipServerJava;
@@ -39,6 +40,10 @@ public class InfosServer {
 	
 	public static int getNbessaienvoimax() {
 		return nbEssaiEnvoiMax;
+	}
+	
+	public static String getDatemax() {
+		return dateMax;
 	}
 
 }

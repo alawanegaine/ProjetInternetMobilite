@@ -1,0 +1,147 @@
+package thread;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.SocketTimeoutException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import protocole.Methode;
+import protocole.Point;
+import protocole.RequeteMessage;
+import protocole.RequetePoints;
+import util.InfosServer;
+import util.DistanceCalculator ;
+
+public class GetListPointThread implements Runnable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private ArrayList<Point> pointAGarder ;
+	private String latitude ;
+	private String longitude ;
+	private int kmMax ;
+	private String dateMax ;
+	
+	public GetListPointThread(String lat, String lon, int km, String d) {
+		pointAGarder = new ArrayList<>() ;
+		latitude = lat ;
+		longitude = lon ;
+		kmMax = km ;
+		dateMax = d ;
+	}
+
+	@Override
+	public void run() {
+		ArrayList<Point> points;
+		
+		try {
+			points = null;
+			int nbEssai = 0 ;
+			while(points == null & nbEssai < InfosServer.getNbessaienvoimax()){
+				Thread.sleep(1000);
+				System.out.println("Renvoi de la requête");
+				points = getListPointFromServer();
+				nbEssai++ ;
+			}
+			// delete when server works
+			if(points == null)
+				points = getSampleListPoints() ;
+			// if 
+			if(kmMax == 0)
+				kmMax = InfosServer.getDistancekmmaxpoints();
+			if(dateMax == null)
+				dateMax = InfosServer.getDatemax();
+			for (Point point : points) {
+				double d = DistanceCalculator.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(point.getLatitude()), Double.parseDouble(point.getLongitude()), "K");
+				System.out.println("Distance entre les deux points : "+d+" kms");
+				if(d <= InfosServer.getDistancekmmaxpoints()){
+					pointAGarder.add(point);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	public ArrayList<Point> getListPointFromServer() throws IOException, InterruptedException{
+		/* Build request to server and send */
+		DatagramSocket dsSend = null ;
+		DatagramPacket dpSend = null ;
+		DatagramSocket dsReceive = null ;
+		DatagramPacket dpReceive = null ;
+		try {
+			RequeteMessage requestGetListPoints= new RequeteMessage() ;
+			requestGetListPoints.setMethode(Methode.getListePoints);
+			requestGetListPoints.setAdresseIp(Inet4Address.getLocalHost().getHostAddress());
+			requestGetListPoints.setPort(InfosServer.getPortserverweb());
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		    String dateMaxString = "22/06/2015";
+			requestGetListPoints.setDateAjout(simpleDateFormat.parse(dateMaxString));
+			
+			byte[] dataSend = RequeteMessage.marshall(requestGetListPoints);
+			dpSend = new DatagramPacket( dataSend, dataSend.length, InetAddress.getByName(InfosServer.getIpserverjava()), InfosServer.getPortserverjava()) ;  		
+			dsSend = new DatagramSocket();
+			
+			System.out.println("Envoi de la requête au serveur...");
+			dsSend.send(dpSend);
+			
+			if(dsSend != null)
+				dsSend.close();
+				
+			/* Now, receive informations */ 
+			RequetePoints requestGetListPointsResponse = new RequetePoints();
+			byte[] dataReceive = new byte[5000] ;
+			dpReceive = new DatagramPacket(dataReceive, dataReceive.length);
+			dsReceive = new DatagramSocket(InfosServer.getPortserverweb());
+			dsReceive.setSoTimeout(2000);
+			
+			dsReceive.receive(dpReceive);
+			System.out.println("Requête du serveur reçue !!");
+			requestGetListPointsResponse = RequetePoints.unmarshall(dpReceive.getData());
+			dsReceive.close();
+			
+			return requestGetListPointsResponse.getListeDePoints() ;
+		}
+		catch(SocketTimeoutException e){
+			System.out.println("Time out..");
+			if(dsReceive != null)
+				dsReceive.close();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null ;
+	}
+	
+	public ArrayList<Point> getPointAGarder() {
+		return pointAGarder;
+	}
+	
+	public void setPointAGarder(ArrayList<Point> pointAGarder) {
+		this.pointAGarder = pointAGarder;
+	}
+	
+	public ArrayList<Point> getSampleListPoints(){
+		ArrayList<Point> listPoint = new ArrayList<>();
+		
+		listPoint.add(new Point("-71.986855","45.371721",0,new Date())); // Subway
+		listPoint.add(new Point("-71.980187","45.375417",1,new Date())); // boulvard bourque
+		listPoint.add(new Point("-71.991530","45.372723",2,new Date())); // metro plus
+		listPoint.add(new Point("-71.927980","45.379412",3,new Date())); // université
+		listPoint.add(new Point("-72.146956","45.274265",4,new Date())); // magog
+		
+		return listPoint;
+	}
+}
